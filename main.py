@@ -13,7 +13,7 @@ def connectDatabase():
 
 class PublicUser:
     def __init__(self):
-        print('Przeglądasz bez zalogowania')
+        print('Przeglądanie bez zalogowania')
         
     def dispLegendPublicUser(self):
         print('[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
@@ -43,10 +43,10 @@ class PublicUser:
 
 class Employee(PublicUser):
     def __init__(self):
-        print('Zalogowany jako' + 'dodac login')
+        print('Zalogowano jako' + 'dodac login')
         
     def dispLegendEmployee(self):
-        a.dispLegendPublicUser(self)
+        self.dispLegendPublicUser()
         print('[4] Wyświetl moje sprawy w trakcie\n[5] Wyświetl moje sprawy zakończone\n[6] Edytuj sprawę')
     
     # dodać funkcję dispMyProceduresInProgress
@@ -57,10 +57,10 @@ class Employee(PublicUser):
 
 class Manager(Employee):
     def __init__(self):
-        print('Zalogowany jako Naczelnik')
+        print('Zalogowano jako Naczelnik')
         
     def dispLegendManager(self):
-        a.dispLegendEmployee(self)
+        self.dispLegendEmployee()
         print('[7] Obciążenie pracowników \n[d] Dodaj nową sprawę\n[p] Dodaj pracownika\n[u] Usuń pracownika\n[e] Edytuj pracownika')
     
     # dodać funkcję dispOverload
@@ -75,11 +75,11 @@ class Manager(Employee):
 
 class Admin(Manager):
     def __init__(self):
-        print('Zalogowany jako Administrator')
+        print('Zalogowano jako Administrator')
         
     def dispLegendAdmin(self):
-        a.dispLegendManager(self)
-        print('[z] Dodaj użytkownika do systemu\n[x] Edytuj LOGIN\n[c] Edytuj HASŁO\n')
+        self.dispLegendManager()
+        print('[z] Dodaj użytkownika do systemu\n[x] Edytuj LOGIN pracownika\n[c] Edytuj HASŁO pracownika\n')
     
     # dodać funkcję addPermissions
     
@@ -90,7 +90,3 @@ class Admin(Manager):
 
 
 
-# polecenia testujące
-connectDatabase()
-a = Admin
-a.dispLegendAdmin(Admin)
