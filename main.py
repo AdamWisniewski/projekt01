@@ -18,6 +18,9 @@ class PublicUser:
     def dispLegendPublicUser(self):
         print('[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
         
+    def askForAction(self):
+        return input('Podaj wybraną wartość z nawiasu: ')
+        
     def dispAllProcedures(self):
         c.execute('select * from sprawy')
         for row in c:
@@ -40,6 +43,16 @@ class PublicUser:
         for row in c:
             print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
 
+    def decisionTreePublicUser(decision):
+        self.decision = decision
+        if decision == 1:
+            self.dispAllProcedures()
+            
+            
+        
+    #def decisionTreePublicUserWrongInput(x):
+        #dopisać wszystkie inne opcje że źle
+        
 
 class Employee(PublicUser):
     def __init__(self):
@@ -86,7 +99,5 @@ class Admin(Manager):
     # dodać funkcję editLogin
     
     # dodać funkcję editPassword
-
-
 
 
