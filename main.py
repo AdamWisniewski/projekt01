@@ -19,12 +19,12 @@ class PublicUser:
         print('[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
         
     def askForAction(self):
-        return input('Podaj wybraną wartość z nawiasu: ')
+        return input('Podaj wybraną wartość z nawiasu: ') # dlaczego to mi zwraca dwie wartości zamiast jednej jest dodatkowo <main.PublicUser object at 0x021E6130>
         
-    def dispAllProcedures(self):
-        c.execute('select * from sprawy')
-        for row in c:
-            print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15])) 
+    #def dispAllProcedures(self):
+        #c.execute('select * from sprawy')
+        #for row in c:
+            #print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15])) 
         
     def dispAllProceduresFinished(self):
         c.execute('select * from sprawy where decyzja_numer is not null')
@@ -43,13 +43,17 @@ class PublicUser:
         for row in c:
             print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
 
-    def decisionTreePublicUser(decision):
-        self.decision = decision
-        if decision == 1:
-            self.dispAllProcedures()
-            
-            
+    def decisionTreePublicUser(y, x): # wywalić stąd drugi argument jak zrozumiem jak on się tu pojawił :(
+        #print(x)
+        #print(y)
         
+        if x == '1':             
+            PublicUser().dispAllProceduresInProgress()
+        elif x == '2':
+            PublicUser().dispAllProceduresFinished()
+        elif x == '3':
+            PublicUser().dispProceduresForAdress()        
+               
     #def decisionTreePublicUserWrongInput(x):
         #dopisać wszystkie inne opcje że źle
         

@@ -12,8 +12,10 @@ while True:
           user = PublicUser()
           user.dispLegendPublicUser()
           userChoice = user.askForAction()
-          if userChoice == '1':             
-               user.dispAllProcedures()
+          user.decisionTreePublicUser(userChoice)
+          
+            
+          
           #user.decisionTreePublicUser(userChoice)
           #user.decisionTreePublicUserWrongInput(userChoice)
           #dodać metodę w pliku klasy gdzie będą ify w zależności od wprowadzonej w cyfry z legendy - i to
@@ -25,9 +27,3 @@ while True:
           #drugim jak z wyswietlaniem metod!! np:
 
 
-# polecenia testujące
-
-#connectDatabase()
-#a = Admin()
-#a.dispLegendAdmin()
-#a.dispAllProcedures()
