@@ -5,23 +5,34 @@ from main import *
 print('Witaj w systemie ewidencji spraw Wydziału Architektury i Budownictwa Powiatu X')
 
 while True:
-     userLogin = str(input('Podaj login lub wciśnij enter i rozpocznij przeglądanie bez zalogowania :'))
+     userLogin = str(input('\nPodaj login lub wciśnij enter i rozpocznij przeglądanie bez zalogowania \n[q] zakończ program:'))
      connectDatabase()
      
-     if userLogin == '':
-          user = PublicUser()
-          user.dispLegendPublicUser()
-          userChoice = user.askForAction()
-          user.decisionTreePublicUser(userChoice)
+     while True:
+          if userLogin == 'q':
+               exitProgram()
+          elif userLogin == '':
+               user = PublicUser()
+               user.dispLegendPublicUser()
+               userChoice = user.askForAction()
+               user.decisionTreePublicUser(userChoice)
+               #--------------zamknąć blok w odrębną funkcje i przerzucić do pliku main (jeszcze nie umiem tego zrobić)
+               logoutDecision = str(input('\n[enter] kontynuuj \n[l] wyloguj \n[q] zakończ program'))
+               if logoutDecision == 'l':
+                    break
+               elif logoutDecision == 'q':
+                    exitProgram()
+               else:
+                    continue
+               #--------------zamknąć blok w odrębną funkcje i przerzucić do pliku main (jeszcze nie umiem tego zrobić)
+               
+
           
             
           
-          #user.decisionTreePublicUser(userChoice)
-          #user.decisionTreePublicUserWrongInput(userChoice)
           #dodać metodę w pliku klasy gdzie będą ify w zależności od wprowadzonej w cyfry z legendy - i to
           #też będzie mogło się dziedziczyć po kolejnych klasach bez powielania kodu
           #po wyświetleni tabeli po wciśnięciu entera powrót na początek tej wewnętrznej pętli i ponowne 
-          #wyświetlenie legendy
           #może do dispLegendPublicUser() dodać drzewko ifów z wywoływaniem poleceń w zależności od podanej 
           #przez użytkownika cyfry? TAK! da radę! dziedziczenei pierwszego drzewka jako metodyPublicUser() w 
           #drugim jak z wyswietlaniem metod!! np:

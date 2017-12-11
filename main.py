@@ -1,22 +1,25 @@
 # -*- coding: utf-8 -*-
 import pymysql
+import sys
 
 def connectDatabase():
     global conn 
     conn = pymysql.connect('localhost', 'root' , 'reaktor', 'wydzial_architektury', use_unicode=1, charset="utf8")
     global c 
-    c = conn.cursor()    
- 
+    c = conn.cursor()
+    
+def exitProgram():
+    sys.exit()
     
 # klasy przedstawiające rodzaje użytkowników serwisu
 # ----pomyśleć jak skrócić wiersz definiujący wiświetlanie tabeli
 
 class PublicUser:
     def __init__(self):
-        print('Przeglądanie bez zalogowania')
+        print('\nPrzeglądanie bez zalogowania')
         
     def dispLegendPublicUser(self):
-        print('[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
+        print('[q] Wyjdź z programu \n[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
         
     def askForAction(self):
         return input('Podaj wybraną wartość z nawiasu: ') # dlaczego to mi zwraca dwie wartości zamiast jednej jest dodatkowo <main.PublicUser object at 0x021E6130>
@@ -43,19 +46,21 @@ class PublicUser:
         for row in c:
             print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
 
-    def decisionTreePublicUser(y, x): # wywalić stąd drugi argument jak zrozumiem jak on się tu pojawił :(
+    def decisionTreePublicUser(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
         #print(y)
         
-        if x == '1':             
+        if x == 'q':
+            exitProgram()
+        elif x == '1':             
             PublicUser().dispAllProceduresInProgress()
         elif x == '2':
             PublicUser().dispAllProceduresFinished()
         elif x == '3':
-            PublicUser().dispProceduresForAdress()        
+            PublicUser().dispProceduresForAdress()
+        else:
+            print('Podano błędną wartość')
                
-    #def decisionTreePublicUserWrongInput(x):
-        #dopisać wszystkie inne opcje że źle
         
 
 class Employee(PublicUser):
