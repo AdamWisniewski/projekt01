@@ -15,19 +15,14 @@ def exitProgram():
 # ----pomyśleć jak skrócić wiersz definiujący wiświetlanie tabeli
 
 class PublicUser:
-    def __init__(self):
-        print('\nPrzeglądanie bez zalogowania')
+    #def __init__(self):
+        #print('\nPrzeglądanie bez zalogowania')
         
     def dispLegendPublicUser(self):
         print('[q] Wyjdź z programu \n[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
         
     def askForAction(self):
         return input('Podaj wybraną wartość z nawiasu: ') # dlaczego to mi zwraca dwie wartości zamiast jednej jest dodatkowo <main.PublicUser object at 0x021E6130>
-        
-    #def dispAllProcedures(self):
-        #c.execute('select * from sprawy')
-        #for row in c:
-            #print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15])) 
         
     def dispAllProceduresFinished(self):
         c.execute('select * from sprawy where decyzja_numer is not null')
@@ -64,8 +59,8 @@ class PublicUser:
         
 
 class Employee(PublicUser):
-    def __init__(self):
-        print('Zalogowano jako' + 'dodac login')
+    #def __init__(self):
+        #print('Zalogowano jako: pracownik')
         
     def dispLegendEmployee(self):
         self.dispLegendPublicUser()
@@ -76,10 +71,23 @@ class Employee(PublicUser):
     # dodać funkcję dispMyProceduresFinished
     
     # dodać funkcję editProcedure
+    
+    def decisionTreeEmployee(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+        #print(x)
+        #print(y)
+        
+        if x == '4':
+            print('funkcja wyświetlania moich spraw w trakcie')
+        elif x == '5':             
+            print('funkcja wyświetlania moich spraw zakończonych')
+        elif x == '6':
+            print('funkcja edycji sprawy')
+        else:
+            Employee().decisionTreePublicUser(x)
 
 class Manager(Employee):
-    def __init__(self):
-        print('Zalogowano jako Naczelnik')
+    #def __init__(self):
+        #print('Zalogowano jako Naczelnik')
         
     def dispLegendManager(self):
         self.dispLegendEmployee()
@@ -96,8 +104,8 @@ class Manager(Employee):
     # dodać funkcję editEmployee
 
 class Admin(Manager):
-    def __init__(self):
-        print('Zalogowano jako Administrator')
+    #def __init__(self):
+        #print('Zalogowano jako Administrator')
         
     def dispLegendAdmin(self):
         self.dispLegendManager()
