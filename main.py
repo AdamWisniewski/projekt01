@@ -8,6 +8,13 @@ def connectDatabase():
     global c 
     c = conn.cursor()
     
+def askForPassword():
+    return input('Podaj hasło: ')
+        
+    
+def checkPermissions():
+    pass
+    
 def exitProgram():
     sys.exit()
     
@@ -15,8 +22,6 @@ def exitProgram():
 # ----pomyśleć jak skrócić wiersz definiujący wiświetlanie tabeli
 
 class PublicUser:
-    #def __init__(self):
-        #print('\nPrzeglądanie bez zalogowania')
         
     def dispLegendPublicUser(self):
         print('[q] Wyjdź z programu \n[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
@@ -54,13 +59,9 @@ class PublicUser:
         elif x == '3':
             PublicUser().dispProceduresForAdress()
         else:
-            print('Podano błędną wartość')
-               
-        
+            print('\nPodano błędną wartość')
 
 class Employee(PublicUser):
-    #def __init__(self):
-        #print('Zalogowano jako: pracownik')
         
     def dispLegendEmployee(self):
         self.dispLegendPublicUser()
@@ -86,8 +87,6 @@ class Employee(PublicUser):
             Employee().decisionTreePublicUser(x)
 
 class Manager(Employee):
-    #def __init__(self):
-        #print('Zalogowano jako Naczelnik')
         
     def dispLegendManager(self):
         self.dispLegendEmployee()
@@ -102,10 +101,25 @@ class Manager(Employee):
     # dodać funkcję delEmployee
         
     # dodać funkcję editEmployee
+    
+    def decisionTreeManager(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+        #print(x)
+        #print(y)
+        
+        if x == '7':
+            print('funkcja wyświetlania obciążenia pracowników')
+        elif x == 'd':             
+            print('funkcja dodawania nowej sprawy')
+        elif x == 'p':
+            print('funkcja dodawania nowego pracownika')
+        elif x == 'u':
+            print('funkcja usuwania pracownika')
+        elif x == 'e':
+            print('funkcja edycji pracownika')            
+        else:
+            Manager().decisionTreeEmployee(x)
 
 class Admin(Manager):
-    #def __init__(self):
-        #print('Zalogowano jako Administrator')
         
     def dispLegendAdmin(self):
         self.dispLegendManager()
@@ -116,5 +130,18 @@ class Admin(Manager):
     # dodać funkcję editLogin
     
     # dodać funkcję editPassword
+    
+    def decisionTreeAdmin(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+        #print(x)
+        #print(y)
+        
+        if x == 'z':
+            print('funkcja dodania użytkownika do systemu')
+        elif x == 'x':             
+            print('funkcja edycji LOGINu pracownika')
+        elif x == 'c':
+            print('funkcja edycji HASŁA pracownika')           
+        else:
+            Admin().decisionTreeManager(x)
 
 

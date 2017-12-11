@@ -6,26 +6,42 @@ print('Witaj w systemie ewidencji spraw Wydziału Architektury i Budownictwa Pow
 
 while True:
      userLogin = str(input('\nPodaj login lub wciśnij enter i rozpocznij przeglądanie bez zalogowania \n[q] zakończ program:'))
+     
+     if userLogin == 'q':
+          exitProgram()
+     elif userLogin != '':
+          userPassword = askForPassword()
+     
      connectDatabase()
      
+     # dodać funkcję sprawdzania czy dla podanego loginu jest hasło, jeżeli tak to continue, jeżeli nie to break?
+     
      while True:
-          if userLogin == 'q':
-               exitProgram()
-          elif userLogin == '':
-               print('Przeglądanie bez zalogowania')
+          if userLogin == '':
+               print('\nPrzeglądanie bez zalogowania')
                user = PublicUser()
                user.dispLegendPublicUser()
                userChoice = user.askForAction()
                user.decisionTreePublicUser(userChoice)
           elif userLogin == 'pracownik': #in lista użytkowników
-               print('Zalogowano jako: Pracownik')
+               print('\nZalogowano jako: Pracownik')
                user = Employee()
                user.dispLegendEmployee()
                userChoice = user.askForAction()
                user.decisionTreeEmployee(userChoice)               
-               
-               
-          #--------------zamknąć blok w odrębną funkcje i przerzucić do pliku main (jeszcze nie umiem tego zrobić)
+          elif userLogin == 'naczelnik': # wprowadzić SQL
+               print('\nZalogowano jako: Naczelnik')
+               user = Manager()
+               user.dispLegendManager()
+               userChoice = user.askForAction()
+               user.decisionTreeManager(userChoice)
+          elif userLogin == 'admin': # wprowadzić SQL
+               print('\nZalogowano jako: Administrator')
+               user = Admin()
+               user.dispLegendAdmin()
+               userChoice = user.askForAction()
+               user.decisionTreeAdmin(userChoice)       
+
           logoutDecision = str(input('\n[enter] kontynuuj \n[l] wyloguj \n[q] zakończ program:'))
           if logoutDecision == 'l':
                break
@@ -33,14 +49,4 @@ while True:
                exitProgram()
           else:
                continue
-          #--------------zamknąć blok w odrębną funkcje i przerzucić do pliku main (jeszcze nie umiem tego zrobić)
-      
-     
-          #dodać metodę w pliku klasy gdzie będą ify w zależności od wprowadzonej w cyfry z legendy - i to
-          #też będzie mogło się dziedziczyć po kolejnych klasach bez powielania kodu
-          #po wyświetleni tabeli po wciśnięciu entera powrót na początek tej wewnętrznej pętli i ponowne 
-          #może do dispLegendPublicUser() dodać drzewko ifów z wywoływaniem poleceń w zależności od podanej 
-          #przez użytkownika cyfry? TAK! da radę! dziedziczenei pierwszego drzewka jako metodyPublicUser() w 
-          #drugim jak z wyswietlaniem metod!! np:
-
 
