@@ -26,13 +26,7 @@ while True:
                user = PublicUser()
                user.dispLegendPublicUser()
                userChoice = user.askForAction()
-               user.decisionTreePublicUser(userChoice)
-          elif userLogin in logins:
-               print('\nZalogowano jako: ' + userLogin)
-               user = Employee()
-               user.dispLegendEmployee()
-               userChoice = user.askForAction()
-               user.decisionTreeEmployee(userChoice)               
+               user.decisionTreePublicUser(userChoice)             
           elif userLogin == 'naczelnik':
                print('\nZalogowano jako: Naczelnik')
                user = Manager()
@@ -44,7 +38,13 @@ while True:
                user = Admin()
                user.dispLegendAdmin()
                userChoice = user.askForAction()
-               user.decisionTreeAdmin(userChoice)       
+               user.decisionTreeAdmin(userChoice)
+          elif userLogin in logins:
+               print('\nZalogowano jako: ' + userLogin)
+               user = Employee()
+               user.dispLegendEmployee()
+               userChoice = user.askForAction()
+               user.decisionTreeEmployee(userChoice)                 
 
           logoutDecision = str(input('\n[enter] kontynuuj \n[l] panel logowania \n[q] zakończ program:'))
           if logoutDecision == 'l':
