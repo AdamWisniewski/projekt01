@@ -16,6 +16,7 @@ while True:
                print('poprawnie zalogowano')
           else:
                print('\npodano błędny login lub hasło')
+               continue
      
      logins = createListOfLogins()
           
