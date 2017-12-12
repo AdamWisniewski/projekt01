@@ -2,19 +2,32 @@
 import pymysql
 import sys
 
+
 def connectDatabase():
     global conn 
     conn = pymysql.connect('localhost', 'root' , 'reaktor', 'wydzial_architektury', use_unicode=1, charset="utf8")
     global c 
     c = conn.cursor()
+
+def databaseError():
+    print('\nbłąd połączenia z bazą danych')
     
 def askForPassword():
     return input('Podaj hasło: ')
 
 def checkPassword(x):
-    c.execute('select password from password where login =\'' + x + '\'')
-    return c.fetchone()[0]
-# dopisać komunikat gdy nie ma właściwego loginu lub hasła - obsługa błędów
+    try:
+        c.execute('select password from password where login =\'' + x + '\'')
+        return c.fetchone()[0]
+    except:
+        pass
+
+def createListOfLogins():
+    try:
+        c.execute('select login from password')
+        return [item[0] for item in c.fetchall()]
+    except:
+        pass
         
 def exitProgram():
     sys.exit()
@@ -31,21 +44,30 @@ class PublicUser:
         return input('Podaj wybraną wartość z nawiasu: ') # dlaczego to mi zwraca dwie wartości zamiast jednej jest dodatkowo <main.PublicUser object at 0x021E6130>
         
     def dispAllProceduresFinished(self):
-        c.execute('select * from sprawy where decyzja_numer is not null')
-        for row in c:
-            print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+        try:
+            c.execute('select * from sprawy where decyzja_numer is not null')
+            for row in c:
+                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+        except:
+            databaseError()
             
     def dispAllProceduresInProgress(self):
-        c.execute('select * from sprawy where decyzja_numer is null')
-        for row in c:
-            print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8]))    
+        try:
+            c.execute('select * from sprawy where decyzja_numer is null')
+            for row in c:
+                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8]))
+        except:
+            databaseError()
     
     def dispProceduresForAdress(self):
         adres = str(input('podaj szukany adres: '))
         adres = str('\'' + adres + '\'')
-        c.execute('select * from sprawy where sprawa_adres =' + adres) # rozbić ulicę i numer w bazie by ułatwić wyszukiwanie
-        for row in c:
-            print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+        try:
+            c.execute('select * from sprawy where sprawa_adres =' + adres) # rozbić ulicę i numer w bazie by ułatwić wyszukiwanie
+            for row in c:
+                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+        except:
+            databaseError()
 
     def decisionTreePublicUser(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)

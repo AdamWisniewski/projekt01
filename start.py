@@ -5,7 +5,7 @@ from main import *
 print('Witaj w systemie ewidencji spraw Wydziału Architektury i Budownictwa Powiatu X')
 
 while True:
-     userLogin = str(input('\nPodaj login lub wciśnij enter i rozpocznij przeglądanie bez zalogowania \n[q] zakończ program:'))
+     userLogin = str(input('\n- Podaj login  \n- wciśnij enter i rozpocznij przeglądanie bez zalogowania \n- [q] zakończ program\n->'))
      
      if userLogin == 'q':
           exitProgram()
@@ -17,7 +17,7 @@ while True:
           else:
                print('\npodano błędny login lub hasło')
      
-     #pobranie listy użytkowników z bazy i zapisanie ich do seta
+     logins = createListOfLogins()
           
      while True:
           if userLogin == '':
@@ -26,8 +26,8 @@ while True:
                user.dispLegendPublicUser()
                userChoice = user.askForAction()
                user.decisionTreePublicUser(userChoice)
-          elif userLogin == 'pracownik': #in zbiór użytkowników
-               print('\nZalogowano jako: Pracownik') # zalogowany jako 'podany login'
+          elif userLogin in logins:
+               print('\nZalogowano jako: ' + userLogin)
                user = Employee()
                user.dispLegendEmployee()
                userChoice = user.askForAction()
@@ -45,7 +45,7 @@ while True:
                userChoice = user.askForAction()
                user.decisionTreeAdmin(userChoice)       
 
-          logoutDecision = str(input('\n[enter] kontynuuj \n[l] wyloguj \n[q] zakończ program:'))
+          logoutDecision = str(input('\n[enter] kontynuuj \n[l] panel logowania \n[q] zakończ program:'))
           if logoutDecision == 'l':
                break
           elif logoutDecision == 'q':
