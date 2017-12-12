@@ -11,11 +11,14 @@ while True:
           exitProgram()
      elif userLogin != '':
           userPassword = askForPassword()
+          connectDatabase()
+          if userPassword == checkPassword(userLogin):
+               print('poprawnie zalogowano')
+          else:
+               print('\npodano błędny login lub hasło')
      
-     connectDatabase()
-     
-     # dodać funkcję sprawdzania czy dla podanego loginu jest hasło, jeżeli tak to continue, jeżeli nie to break?
-     
+     #pobranie listy użytkowników z bazy i zapisanie ich do seta
+          
      while True:
           if userLogin == '':
                print('\nPrzeglądanie bez zalogowania')
@@ -23,19 +26,19 @@ while True:
                user.dispLegendPublicUser()
                userChoice = user.askForAction()
                user.decisionTreePublicUser(userChoice)
-          elif userLogin == 'pracownik': #in lista użytkowników
-               print('\nZalogowano jako: Pracownik')
+          elif userLogin == 'pracownik': #in zbiór użytkowników
+               print('\nZalogowano jako: Pracownik') # zalogowany jako 'podany login'
                user = Employee()
                user.dispLegendEmployee()
                userChoice = user.askForAction()
                user.decisionTreeEmployee(userChoice)               
-          elif userLogin == 'naczelnik': # wprowadzić SQL
+          elif userLogin == 'naczelnik':
                print('\nZalogowano jako: Naczelnik')
                user = Manager()
                user.dispLegendManager()
                userChoice = user.askForAction()
                user.decisionTreeManager(userChoice)
-          elif userLogin == 'admin': # wprowadzić SQL
+          elif userLogin == 'admin':
                print('\nZalogowano jako: Administrator')
                user = Admin()
                user.dispLegendAdmin()

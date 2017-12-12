@@ -10,11 +10,12 @@ def connectDatabase():
     
 def askForPassword():
     return input('Podaj hasło: ')
+
+def checkPassword(x):
+    c.execute('select password from password where login =\'' + x + '\'')
+    return c.fetchone()[0]
+# dopisać komunikat gdy nie ma właściwego loginu lub hasła - obsługa błędów
         
-    
-def checkPermissions():
-    pass
-    
 def exitProgram():
     sys.exit()
     
