@@ -21,30 +21,32 @@ while True:
      logins = createListOfLogins()
           
      while True:
-          if userLogin == '':
+          if userLogin in logins:
+               print('\nZalogowano jako: ' + userLogin)
+               if checkPermissions(userLogin) == 1:
+                    user = Employee()
+                    user.dispLegendEmployee()
+                    userChoice = user.askForAction()
+                    user.decisionTreeEmployee(userChoice)
+               elif checkPermissions(userLogin) == 2:
+                    user = Manager()
+                    user.dispLegendManager()
+                    userChoice = user.askForAction()
+                    user.decisionTreeManager(userChoice)
+               elif checkPermissions(userLogin) == 3:      
+                    user = Admin()
+                    user.dispLegendAdmin()
+                    userChoice = user.askForAction()
+                    user.decisionTreeAdmin(userChoice)
+               else:
+                    print('użytkownikowi nie nadano uprawnień - zgłoś się do administratora')
+          else:
                print('\nPrzeglądanie bez zalogowania')
                user = PublicUser()
                user.dispLegendPublicUser()
                userChoice = user.askForAction()
-               user.decisionTreePublicUser(userChoice)             
-          elif userLogin == 'naczelnik':
-               print('\nZalogowano jako: Naczelnik')
-               user = Manager()
-               user.dispLegendManager()
-               userChoice = user.askForAction()
-               user.decisionTreeManager(userChoice)
-          elif userLogin == 'admin':
-               print('\nZalogowano jako: Administrator')
-               user = Admin()
-               user.dispLegendAdmin()
-               userChoice = user.askForAction()
-               user.decisionTreeAdmin(userChoice)
-          elif userLogin in logins:
-               print('\nZalogowano jako: ' + userLogin)
-               user = Employee()
-               user.dispLegendEmployee()
-               userChoice = user.askForAction()
-               user.decisionTreeEmployee(userChoice)                 
+               user.decisionTreePublicUser(userChoice)
+     
 
           logoutDecision = str(input('\n[enter] kontynuuj \n[l] panel logowania \n[q] zakończ program:'))
           if logoutDecision == 'l':

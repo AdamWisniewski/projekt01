@@ -2,7 +2,6 @@
 import pymysql
 import sys
 
-
 def connectDatabase():
     global conn 
     conn = pymysql.connect('localhost', 'root' , 'reaktor', 'wydzial_architektury', use_unicode=1, charset="utf8")
@@ -27,7 +26,14 @@ def createListOfLogins():
         c.execute('select login from password')
         return [item[0] for item in c.fetchall()]
     except:
-        pass
+        databaseError()
+        
+def checkPermissions(x):    
+    try:
+        c.execute('select id_permissions from password where login =\'' + x + '\'')
+        return (c.fetchone()[0])
+    except:
+        databaseError()
         
 def exitProgram():
     sys.exit()
@@ -148,11 +154,13 @@ class Admin(Manager):
         self.dispLegendManager()
         print('[z] Dodaj użytkownika do systemu\n[x] Edytuj LOGIN pracownika\n[c] Edytuj HASŁO pracownika\n')
     
-    # dodać funkcję addPermissions
+    # dodać funkcję addUser
     
     # dodać funkcję editLogin
     
     # dodać funkcję editPassword
+    
+    # dodać funkcję editPermissions
     
     def decisionTreeAdmin(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
