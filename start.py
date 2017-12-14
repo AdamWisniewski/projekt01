@@ -6,18 +6,18 @@ print('Witaj w systemie ewidencji spraw Wydziału Architektury i Budownictwa Pow
 
 while True:
      userLogin = str(input('\n- Podaj login  \n- wciśnij enter i rozpocznij przeglądanie bez zalogowania \n- [q] zakończ program\n->'))
+     connectDatabase()
      
      if userLogin == 'q':
           exitProgram()
      elif userLogin != '':
           userPassword = askForPassword()
-          connectDatabase()
           if userPassword == checkPassword(userLogin):
                print('poprawnie zalogowano')
           else:
                print('\npodano błędny login lub hasło')
                continue
-     
+
      logins = createListOfLogins()
           
      while True:

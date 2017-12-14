@@ -39,7 +39,6 @@ def exitProgram():
     sys.exit()
     
 # klasy przedstawiające rodzaje użytkowników serwisu
-# ----pomyśleć jak skrócić wiersz definiujący wiświetlanie tabeli
 
 class PublicUser:
         
@@ -51,7 +50,7 @@ class PublicUser:
         
     def dispAllProceduresFinished(self):
         try:
-            c.execute('select * from sprawy where decyzja_numer is not null')
+            c.execute('select * from allProceduresFinished')
             for row in c:
                 print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
         except:
@@ -59,7 +58,7 @@ class PublicUser:
             
     def dispAllProceduresInProgress(self):
         try:
-            c.execute('select * from sprawy where decyzja_numer is null')
+            c.execute('select * from allProceduresInProgress')
             for row in c:
                 print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8]))
         except:
@@ -75,7 +74,7 @@ class PublicUser:
         except:
             databaseError()
 
-    def decisionTreePublicUser(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+    def decisionTreePublicUser(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
         #print(y)
         
@@ -94,22 +93,36 @@ class Employee(PublicUser):
         
     def dispLegendEmployee(self):
         self.dispLegendPublicUser()
-        print('[4] Wyświetl moje sprawy w trakcie\n[5] Wyświetl moje sprawy zakończone\n[6] Edytuj sprawę')
+        print('[4] Wyświetl sprawy w trakcie dla pracownika\n[5] Wyświetl sprawy zakończone dla pracownika\n[6] Edytuj sprawę')
     
-    # dodać funkcję dispMyProceduresInProgress
-    
-    # dodać funkcję dispMyProceduresFinished
+    def dispTargetEmployeeProceduresFinished(self):
+        x = str(input('podaj nazwisko pracownika; '))
+        try:
+            c.execute('select * from allProceduresFinished where pracownik_nazwisko =\'' + x + '\'')
+            for row in c:
+                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+        except:
+            databaseError()
+            
+    def dispTargetEmployeeProceduresInProgress(self):
+        x = str(input('podaj nazwisko pracownika: '))
+        try:
+            c.execute('select * from allProceduresInProgress where pracownik_nazwisko =\'' + x + '\'')
+            for row in c:
+                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8]))
+        except:
+            databaseError()
     
     # dodać funkcję editProcedure
     
-    def decisionTreeEmployee(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+    def decisionTreeEmployee(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
         #print(y)
         
         if x == '4':
-            print('funkcja wyświetlania moich spraw w trakcie')
+            Employee().dispTargetEmployeeProceduresInProgress()
         elif x == '5':             
-            print('funkcja wyświetlania moich spraw zakończonych')
+            Employee().dispTargetEmployeeProceduresFinished()
         elif x == '6':
             print('funkcja edycji sprawy')
         else:
@@ -121,22 +134,28 @@ class Manager(Employee):
         self.dispLegendEmployee()
         print('[7] Obciążenie pracowników \n[d] Dodaj nową sprawę\n[p] Dodaj pracownika\n[u] Usuń pracownika\n[e] Edytuj pracownika')
     
-    # dodać funkcję dispOverload
+    def dispOverload(self):
+        try:
+            c.execute('select * from employee_overload')
+            for row in c:
+                print("|%10s|%10s|%20s|%5s|%5s|" %(row[0],row[1],row[2],row[3],row[4]))
+        except:
+            databaseError()
     
     # dodać funkcję addNewProcedure
     
-    # dodać funkcję addEmployee
+    # dodać funkcję addEmploy
     
     # dodać funkcję delEmployee
         
     # dodać funkcję editEmployee
     
-    def decisionTreeManager(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+    def decisionTreeManager(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
         #print(y)
         
         if x == '7':
-            print('funkcja wyświetlania obciążenia pracowników')
+            print(Manager().dispOverload())
         elif x == 'd':             
             print('funkcja dodawania nowej sprawy')
         elif x == 'p':
@@ -162,7 +181,7 @@ class Admin(Manager):
     
     # dodać funkcję editPermissions
     
-    def decisionTreeAdmin(y, x): # wywalić stąd drugi argument gdy zrozumiem jak on się tu pojawił :(
+    def decisionTreeAdmin(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
         #print(y)
         
