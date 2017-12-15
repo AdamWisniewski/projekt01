@@ -1,17 +1,23 @@
-Projekt pozwala na zarz¹dzanie prowadzonymi sprawami w ramach dowolnego wydzia³u Architektury i Budownictwa w Polsce.
+ï»¿Projekt pozwala na zarzÄ…dzanie prowadzonymi sprawami w ramach dowolnego wydziaÅ‚u Architektury i Budownictwa w Polsce.
 
 podstawowe funkcje systemu to:
-- ewidencja prowadzonych w wydziale postêpowañ w sprawie wydania pozwolenia na budowê
-- nazdór nad zachowaniem ustawowych terminów
-- nadzór nad obci¹¿eniem pracowników prac¹
+- ewidencja prowadzonych w wydziale postÄ™powaÅ„ w sprawie wydania pozwolenia na budowÄ™
+- nazdÃ³r nad zachowaniem ustawowych terminÃ³w
+- nadzÃ³r nad obciÄ…Å¼eniem pracownikÃ³w pracÄ…
+- dekretacja spraw
+- ewidencja wydanych decyzji
+- 4 poziomy uprawnieÅ„ wraz z logowaniem do systemu za pomocÄ… ustalonego hasÅ‚a
 
 
-plik main.py
+plik main.py:
 - zestawienie klas i funkcji
-- ka¿da klasa odpowiada poziomowi uprawnieñ u¿ytkownika w systemie
-- ka¿da kolejna klasa dziedziczy funkcje po wy¿szej klasie
-- rodzaje u¿ytkowników:
-	PublicUser:
-	Employee:
-	Manager:
-	Admin
+- kaÅ¼da klasa odpowiada poziomowi uprawnieÅ„ uÅ¼ytkownika w systemie
+- kaÅ¼da kolejna klasa dziedziczy funkcje po wyÅ¼szej klasie
+- rodzaje uÅ¼ytkownikÃ³w:
+	PublicUser: przeglÄ…danie spraw prowadzonych i wydanych rÃ³wnieÅ¼ pod wskazanym adresem
+	Employee: edytowanie procedur, wprowadzanie wydanych decyzji
+	Manager: kontrola nad obciÄ…Å¼eniem pracÄ…, wprowadzanie nowych postÄ™powaÅ„ do systemu, zarzÄ…dzanie personelem
+	Admin: zarzÄ…dzanie uprawnieniami uÅ¼ytkownikÃ³w w systemie
+
+plik start.py
+- kod programu
