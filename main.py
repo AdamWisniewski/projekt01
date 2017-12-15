@@ -196,7 +196,37 @@ class Manager(Employee):
         except:
             databaseError()
         
-    # dodać funkcję editEmployee
+    def editEmployee(self):
+        ID_pracownik = str(input('podaj ID pracownika do edycji : '))
+        pracownik_imie = str(input('podaj nowe imię pracownika lub wciśnij [enter] : '))
+        pracownik_nazwisko = str(input('podaj nowe nazwisko dla pracownika lub wciśnij [enter] : '))
+        ID_stanowisko = str(input('podaj nowe stanowisko dla pracownika lub wciśnij [enter] : '))
+        
+        if pracownik_imie !='':
+            try:
+                c.execute('update pracownicy set pracownik_imie = \'' + pracownik_imie + '\' where ID_pracownik = ' + ID_pracownik)
+                conn.commit()
+                print('Dane pracownika pomyślnie edytowano')
+            except:
+                databaseError()
+        
+        if pracownik_nazwisko !='':
+            try:
+                c.execute('update pracownicy set pracownik_nazwisko = \'' + pracownik_nazwisko + '\' where ID_pracownik = ' + ID_pracownik)
+                conn.commit()
+                print('Dane pracownika pomyślnie edytowano')
+            except:
+                databaseError()
+                
+        if ID_stanowisko !='':
+            try:
+                c.execute('update pracownicy set ID_stanowisko = \'' + ID_stanowisko + '\' where ID_pracownik = ' + ID_pracownik)
+                conn.commit()
+                print('Dane pracownika pomyślnie edytowano')
+            except:
+                databaseError()
+        else:
+            print('dane pracownika nie zostały zmienone')
     
     def decisionTreeManager(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
@@ -211,7 +241,7 @@ class Manager(Employee):
         elif x == 'u':
             Manager().delEmployee()
         elif x == 'e':
-            print('funkcja edycji pracownika')            
+            Manager().editEmployee()            
         else:
             Manager().decisionTreeEmployee(x)
 
