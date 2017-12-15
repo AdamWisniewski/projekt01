@@ -115,6 +115,8 @@ class Employee(PublicUser):
     
     # dodać funkcję editProcedure
     
+    # dodać funkcję addDecision
+    
     def decisionTreeEmployee(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
         #print(x)
         #print(y)
@@ -142,11 +144,57 @@ class Manager(Employee):
         except:
             databaseError()
     
-    # dodać funkcję addNewProcedure
+    def addNewProcedure(self): # funkcja nie działa
+        #ID_sprawa - autoinkrementacja
+        sprawa_numer = str(input('numer sprawy: '))
+        data_wniosku = str(input('data wniosku w formacie XX-XX-XX'))
+        inwestor_imie = str(input('imię inwestora :'))
+        inwestor_nazwisko = str(input('nazwisko inwestora :'))
+        inwestor_nazwa = str(input('nazwa inwestora :'))
+        sprawa_adres = str(input('adres inwestycji :'))
+        ID_sprawa_kategoria = str(input('kategoria sprawy od 1 do 30 :'))
+        sprawa_opis = str(input('opis sprawy (max 150 znaków) :'))
+        sprawa_waga = str(input('waga sprawy od 1 do 5 :'))
+        ID_sprawa_status = str(input('status sprawy :'))
+        #sprawa_deadline  = data_wniosku + 65 dni - wygenerować w SQL
+        ID_pracownik = str(input('pracownik prowadzący od 1 do 5 :'))
+        #decyzja_numer
+        #decyzja_rok
+        #decyzja_data_wydania
+        #ID_decyzja_rodzaj
+        #ID_decyzja_status
+        komentarz = str(input('komentarz (max 200 znaków)'))
+        
+        try:
+            c.execute("insert into sprawy values(null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, null, %s, null, null, null, null, null, %s)",
+                      (sprawa_numer, data_wniosku, inwestor_imie, inwestor_nazwisko, inwestor_nazwa, sprawa_adres, ID_sprawa_kategoria, 
+                       sprawa_opis, sprawa_waga, ID_sprawa_status, ID_pracownik, komentarz))
+            conn.commit()
+        except:
+            databaseError()
     
-    # dodać funkcję addEmploy
+    def addEmployee(self):
+        #ID_pracownik - autoinkrementacja
+        pracownik_imie = str(input('imię pracownika :'))
+        pracownik_nazwisko = str(input('nazwisko pracownika :'))
+        ID_stanowisko = str(input('stanowisko prawownika = 1-6 :'))   
+        
+        try:
+            c.execute("insert into pracownicy values(null, %s, %s, %s)",(pracownik_imie, pracownik_nazwisko, ID_stanowisko))
+            conn.commit()
+            print('Pracownik: ' + pracownik_imie + ' ' + pracownik_nazwisko + 'pomyślnie wprowadzony do systemu')
+        except:
+            databaseError()     
     
-    # dodać funkcję delEmployee
+    def delEmployee(self):
+        ID_pracownik = str(input('podaj ID pracownika do usunięcia z systemu:'))    
+        
+        try:
+            c.execute('delete from pracownicy where ID_pracownik =' + ID_pracownik)
+            conn.commit()
+            print('Pracownik został usunięty z systemu')
+        except:
+            databaseError()
         
     # dodać funkcję editEmployee
     
@@ -155,13 +203,13 @@ class Manager(Employee):
         #print(y)
         
         if x == '7':
-            print(Manager().dispOverload())
+            Manager().dispOverload()
         elif x == 'd':             
-            print('funkcja dodawania nowej sprawy')
+            Manager().addNewProcedure()
         elif x == 'p':
-            print('funkcja dodawania nowego pracownika')
+            Manager().addEmployee()
         elif x == 'u':
-            print('funkcja usuwania pracownika')
+            Manager().delEmployee()
         elif x == 'e':
             print('funkcja edycji pracownika')            
         else:
