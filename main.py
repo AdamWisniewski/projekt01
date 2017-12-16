@@ -46,7 +46,7 @@ class PublicUser:
         print('[q] Wyjdź z programu \n[1] Wyświetl wszystkie sprawy w trakcie \n[2] Wyświetl wszystkie sprawy zakończone\n[3] Sprawdź postępowania dla wskazanego adresu')
         
     def askForAction(self):
-        return input('Podaj wybraną wartość z nawiasu: ') # dlaczego to mi zwraca dwie wartości zamiast jednej jest dodatkowo <main.PublicUser object at 0x021E6130>
+        return input('Podaj wybraną wartość z nawiasu: ')
         
     def dispAllProceduresFinished(self):
         try:
@@ -74,9 +74,7 @@ class PublicUser:
         except:
             databaseError()
 
-    def decisionTreePublicUser(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
-        #print(x)
-        #print(y)
+    def decisionTreePublicUser(self, x): # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
         if x == 'q':
             exitProgram()
@@ -117,9 +115,7 @@ class Employee(PublicUser):
     
     # dodać funkcję addDecision
     
-    def decisionTreeEmployee(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
-        #print(x)
-        #print(y)
+    def decisionTreeEmployee(y, x):  # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
         if x == '4':
             Employee().dispTargetEmployeeProceduresInProgress()
@@ -228,9 +224,7 @@ class Manager(Employee):
         else:
             print('dane pracownika nie zostały zmienone')
     
-    def decisionTreeManager(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
-        #print(x)
-        #print(y)
+    def decisionTreeManager(y, x):  # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
         if x == '7':
             Manager().dispOverload()
@@ -259,9 +253,7 @@ class Admin(Manager):
     
     # dodać funkcję editPermissions
     
-    def decisionTreeAdmin(y, x): # usunąć drugi argument gdy zrozumiem jak on się tu pojawił :(
-        #print(x)
-        #print(y)
+    def decisionTreeAdmin(y, x):  # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
         if x == 'z':
             print('funkcja dodania użytkownika do systemu')
