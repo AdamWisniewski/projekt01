@@ -49,36 +49,43 @@ class PublicUser:
         return input('Podaj wybraną wartość z nawiasu: ')
         
     def dispAllProceduresFinished(self):
-        print("|%3s|%3s|%3s|%10s|%12s|%15s|%12.12s|%20.20s|%3s|%3s|%3s|%3s|" 
-                      %('ID', 'nr', 'rok', 'data wniosku', 'imię', 'nazwisko', 'nazwa firmy', 'adres', 'kategoria', 'waga', 'nr decyzji', 'data wyd. decyzji')) 
-        print('-'*130)        
+        print("|%3s|%3s|%5s|%12s|%12s|%15s|%12.12s|%20.20s|%5s|%5s|%7s|%15s|%15s|" %('ID', 'nr', 'rok', 'data wniosku', 'imię', 'nazwisko', 'nazwa firmy', 'adres', 'kat.', 'waga', 'nr dec.', 'data wyd. dec.', 'prowadzący')) 
+        print('-'*150)        
         try:
             c.execute('select * from allProceduresFinished')
             for row in c:
-                print("|%3i|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%3s|%3s|%3s|" 
-                      %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[13], str(row[14]), row[16]))
+                print("|%3i|%3i|%5i|%12s|%12s|%15s|%12.12s|%20.20s|%5i|%5s|%7s|%15s|%15s|" 
+                      %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[13], str(row[14]), row[16], row[20]))
         except:
             databaseError()
             
     def dispAllProceduresInProgress(self):
+        print("|%3s|%3s|%5s|%12s|%12s|%15s|%12.12s|%20.20s|%5s|%15s|" 
+                  %('ID', 'nr', 'rok', 'data wniosku', 'imię', 'nazwisko', 'nazwa firmy', 'adres', 'kat.', 'prowadzący')) 
+        print('-'*100)         
         try:
             c.execute('select * from allProceduresInProgress')
             for row in c:
-                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8]))
+                print("|%3s|%3s|%5s|%12s|%12s|%15s|%12.12s|%20.20s|%5s|%15s|" 
+                      %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[20]))
         except:
             databaseError()
     
     def dispProceduresForAdress(self):
-        ulica = str(input('podaj nazwę ulic (bez skrótu ul. pl. al. itp.): '))
+        ulica = str(input('podaj nazwę ulicy (bez skrótu ul. pl. al. itp.): '))
         numer = str(input('podaj szukany numer lub wciśnij [enter]: '))
         if numer == '':
             adres = str('\'' + ulica + '\'')
         else:
             adres = str('\'' + ulica + '' + numer +'\'')
+        print("|%3s|%3s|%5s|%12s|%12s|%15s|%12.12s|%20.20s|%5s|%5s|%7s|%15s|%15s|" 
+              %('ID', 'nr', 'rok', 'data wniosku', 'imię', 'nazwisko', 'nazwa firmy', 'adres', 'kat.', 'waga', 'nr dec.', 'data wyd. dec.', 'prowadzący')) 
+        print('-'*150)        
         try:
-            c.execute('select * from sprawy where sprawa_adres =' + adres)
+            c.execute('select * from allProcedures where sprawa_adres =' + adres)
             for row in c:
-                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|%15s|" 
+                      %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15], row[20]))
         except:
             databaseError()
 
