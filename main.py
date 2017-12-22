@@ -49,10 +49,14 @@ class PublicUser:
         return input('Podaj wybraną wartość z nawiasu: ')
         
     def dispAllProceduresFinished(self):
+        print("|%3s|%3s|%3s|%10s|%12s|%15s|%12.12s|%20.20s|%3s|%3s|%3s|%3s|" 
+                      %('ID', 'nr', 'rok', 'data wniosku', 'imię', 'nazwisko', 'nazwa firmy', 'adres', 'kategoria', 'waga', 'nr decyzji', 'data wyd. decyzji')) 
+        print('-'*130)        
         try:
             c.execute('select * from allProceduresFinished')
             for row in c:
-                print("|%3i|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[13], str(row[14]), row[15], row[16]))
+                print("|%3i|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%3s|%3s|%3s|" 
+                      %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[13], str(row[14]), row[16]))
         except:
             databaseError()
             
