@@ -76,16 +76,17 @@ class PublicUser:
         numer = str(input('podaj szukany numer lub wciśnij [enter]: '))
         if numer == '':
             adres = str('\'' + ulica + '\'')
+            print(adres)
         else:
-            adres = str('\'' + ulica + '' + numer +'\'')
+            adres = str('\'' + ulica + ' ' + numer +'\'')
         print("|%3s|%3s|%5s|%12s|%12s|%15s|%12.12s|%20.20s|%5s|%5s|%7s|%15s|%15s|" 
               %('ID', 'nr', 'rok', 'data wniosku', 'imię', 'nazwisko', 'nazwa firmy', 'adres', 'kat.', 'waga', 'nr dec.', 'data wyd. dec.', 'prowadzący')) 
         print('-'*150)        
         try:
             c.execute('select * from allProcedures where sprawa_adres =' + adres)
             for row in c:
-                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|%15s|" 
-                      %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15], row[20]))
+                print("|%3s|%3s|%5s|%12s|%12s|%15s|%12.12s|%20.20s|%5s|%5s|%7s|%15s|%15s|" 
+                      %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[13], str(row[14]), row[16], row[20]))
         except:
             databaseError()
 
@@ -167,10 +168,11 @@ class Manager(Employee):
         except:
             databaseError()
     
-    def addNewProcedure(self): # funkcja nie działa
+    def addNewProcedure(self):
         #ID_sprawa - autoinkrementacja
-        sprawa_numer = str(input('numer sprawy: '))
-        data_wniosku = str(input('data wniosku w formacie XX-XX-XX'))
+        #sprawa_numer - trigger
+        #sprawa_rok - trigger
+        data_wniosku = str(input('data wniosku w formacie YYYY-MM-DD'))
         inwestor_imie = str(input('imię inwestora :'))
         inwestor_nazwisko = str(input('nazwisko inwestora :'))
         inwestor_nazwa = str(input('nazwa inwestora :'))
@@ -179,7 +181,7 @@ class Manager(Employee):
         sprawa_opis = str(input('opis sprawy (max 150 znaków) :'))
         sprawa_waga = str(input('waga sprawy od 1 do 5 :'))
         ID_sprawa_status = str(input('status sprawy :'))
-        #sprawa_deadline  = data_wniosku + 65 dni - wygenerować w SQL
+        #sprawa_deadline  = data_wniosku + 65 dni - wygenerować w SQL - dorobić trigger
         ID_pracownik = str(input('pracownik prowadzący od 1 do 5 :'))
         #decyzja_numer
         #decyzja_rok
@@ -189,9 +191,10 @@ class Manager(Employee):
         komentarz = str(input('komentarz (max 200 znaków)'))
         
         try:
-            c.execute("insert into sprawy values(null, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, null, %s, null, null, null, null, null, %s)",
-                      (sprawa_numer, data_wniosku, inwestor_imie, inwestor_nazwisko, inwestor_nazwa, sprawa_adres, ID_sprawa_kategoria, 
+            c.execute("insert into sprawy values(null, null, null, %s, %s, %s, %s, %s, %s, %s, %s, %s, null, %s, null, null, null, null, null, %s)",
+                      (data_wniosku, inwestor_imie, inwestor_nazwisko, inwestor_nazwa, sprawa_adres, ID_sprawa_kategoria, 
                        sprawa_opis, sprawa_waga, ID_sprawa_status, ID_pracownik, komentarz))
+            print('pomyślnie dodano sprawę do bazy')
             conn.commit()
         except:
             databaseError()
