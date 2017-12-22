@@ -52,7 +52,7 @@ class PublicUser:
         try:
             c.execute('select * from allProceduresFinished')
             for row in c:
-                print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
+                print("|%3i|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], row[2], str(row[3]), row[4], row[5], row[6], row[7], row[8], row[13], str(row[14]), row[15], row[16]))
         except:
             databaseError()
             
