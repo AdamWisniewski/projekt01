@@ -1,4 +1,6 @@
-﻿Projekt pozwala na zarządzanie prowadzonymi sprawami w ramach dowolnego wydziału Architektury i Budownictwa w Polsce.
+﻿Relacyjna baza danych (mySQL) oraz interfejs w wierszu polecen (Python)
+
+Projekt pozwala na zarządzanie prowadzonymi sprawami w wydziałach Architektury i Budownictwa w jednostkach samorządu terytorialnego w Polsce.
 
 podstawowe funkcje systemu to:
 - ewidencja prowadzonych w wydziale postępowań w sprawie wydania pozwolenia na budowę
@@ -21,3 +23,5 @@ plik main.py:
 
 plik start.py
 - kod programu
+
+importowanie triggerów do bazy w drugiej kolejności (by nie modyfikować historycznych insertów)

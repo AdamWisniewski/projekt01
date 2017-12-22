@@ -65,10 +65,14 @@ class PublicUser:
             databaseError()
     
     def dispProceduresForAdress(self):
-        adres = str(input('podaj szukany adres: '))
-        adres = str('\'' + adres + '\'')
+        ulica = str(input('podaj nazwę ulic (bez skrótu ul. pl. al. itp.): '))
+        numer = str(input('podaj szukany numer lub wciśnij [enter]: '))
+        if numer == '':
+            adres = str('\'' + ulica + '\'')
+        else:
+            adres = str('\'' + ulica + '' + numer +'\'')
         try:
-            c.execute('select * from sprawy where sprawa_adres =' + adres) # rozbić ulicę i numer w bazie by ułatwić wyszukiwanie
+            c.execute('select * from sprawy where sprawa_adres =' + adres)
             for row in c:
                 print("|%3i|%3i|%10s|%12s|%15s|%12.12s|%20.20s|%3i|%-35s|%3s|%3s|%3s|" %(row[0], row[1], str(row[2]), row[3], row[4], row[5], row[6], row[7], row[8], str(row[13]), row[14], row[15]))
         except:
@@ -92,8 +96,19 @@ class Employee(PublicUser):
     def dispLegendEmployee(self):
         self.dispLegendPublicUser()
         print('[4] Wyświetl sprawy w trakcie dla pracownika\n[5] Wyświetl sprawy zakończone dla pracownika\n[6] Edytuj sprawę')
+        
+    def dispEmployeeList(self):
+        try:
+            c.execute('select * from allEmployee')
+            print("|%3s|%10s|%10s|%20s|" %('ID', 'imię', 'nazwisko', 'stanowisko'))
+            print('-'*48)
+            for row in c:
+                print("|%3s|%10s|%10s|%20s|" %(row[0],row[1],row[2],row[3]))
+        except:
+            databaseError()         
     
     def dispTargetEmployeeProceduresFinished(self):
+        self.dispEmployeeList()
         x = str(input('podaj nazwisko pracownika; '))
         try:
             c.execute('select * from allProceduresFinished where pracownik_nazwisko =\'' + x + '\'')
@@ -103,6 +118,7 @@ class Employee(PublicUser):
             databaseError()
             
     def dispTargetEmployeeProceduresInProgress(self):
+        self.dispEmployeeList()
         x = str(input('podaj nazwisko pracownika: '))
         try:
             c.execute('select * from allProceduresInProgress where pracownik_nazwisko =\'' + x + '\'')
@@ -130,7 +146,7 @@ class Manager(Employee):
         
     def dispLegendManager(self):
         self.dispLegendEmployee()
-        print('[7] Obciążenie pracowników \n[d] Dodaj nową sprawę\n[p] Dodaj pracownika\n[u] Usuń pracownika\n[e] Edytuj pracownika')
+        print('[7] Obciążenie pracowników \n[d] Dodaj nową sprawę\n[p] Dodaj pracownika\n[u] Usuń pracownika\n[e] Edytuj pracownika')   
     
     def dispOverload(self):
         try:
@@ -170,6 +186,7 @@ class Manager(Employee):
             databaseError()
     
     def addEmployee(self):
+        self.dispEmployeeList()
         #ID_pracownik - autoinkrementacja
         pracownik_imie = str(input('imię pracownika :'))
         pracownik_nazwisko = str(input('nazwisko pracownika :'))
@@ -183,7 +200,8 @@ class Manager(Employee):
             databaseError()     
     
     def delEmployee(self):
-        ID_pracownik = str(input('podaj ID pracownika do usunięcia z systemu:'))    
+        self.dispEmployeeList()
+        ID_pracownik = str(input('\n podaj ID pracownika do usunięcia z systemu:'))    
         
         try:
             c.execute('delete from pracownicy where ID_pracownik =' + ID_pracownik)
@@ -193,6 +211,7 @@ class Manager(Employee):
             databaseError()
         
     def editEmployee(self):
+        self.dispEmployeeList()
         ID_pracownik = str(input('podaj ID pracownika do edycji : '))
         pracownik_imie = str(input('podaj nowe imię pracownika lub wciśnij [enter] : '))
         pracownik_nazwisko = str(input('podaj nowe nazwisko dla pracownika lub wciśnij [enter] : '))
