@@ -139,9 +139,66 @@ class Employee(PublicUser):
         except:
             databaseError()
     
-    # dodać funkcję editProcedure
+    def editProcedure(self):
+        ID_sprawa = str(input('podaj ID sprawy do edycji lub wciśnij [enter] : '))
+        
+        if ID_sprawa !='':
+            decyzja_numer = str(input('podaj numer decyzji lub wciśnij [enter] : '))
+            decyzja_rok = str(input('podaj rok wydania decyzji lub wciśnij [enter] : '))        # przerobić na trigera z daty
+            decyzja_data_wydania = str(input('data wniosku w formacie YYYY-MM-DD  lub wciśnij [enter] : '))
+            ID_decyzja_rodzaj = str(input('decyzja [1] pozytywna, [2] negatywna, [3] umarzająca, lub wciśnij [enter] : '))
+            ID_decyzja_status = str(input('decyzja [1] nieprawomocna, [2] prawomocna, [3] uchylona lub wciśnij [enter] : '))
+            komentarz = str(input('dodaj komentarz lub wciśnij [enter] : '))            
+        
+        # poniższy kod mogę przerobić na pętlę z iterowaniem po tymczasowej liście z powyższych wartości
+                
+        if decyzja_numer !='':
+            try:
+                c.execute('update sprawy set decyzja_numer = \'' + decyzja_numer + '\' where ID_sprawa = ' + ID_sprawa)
+                conn.commit()
+            except:
+                databaseError() 
+                
+        if decyzja_rok !='':
+            try:
+                c.execute('update sprawy set decyzja_rok = \'' + decyzja_rok+ '\' where ID_sprawa = ' + ID_sprawa)
+                conn.commit()
+            except:
+                databaseError()         
+         
+        if decyzja_data_wydania !='':
+            try:
+                c.execute('update sprawy set decyzja_data_wydania = \'' + decyzja_data_wydania + '\' where ID_sprawa = ' + ID_sprawa)
+                conn.commit()
+            except:
+                databaseError()        
+        
+        if  ID_decyzja_rodzaj !='':
+            try:
+                c.execute('update sprawy set  ID_decyzja_rodzaj = \'' +  ID_decyzja_rodzaj + '\' where ID_sprawa = ' + ID_sprawa)
+                conn.commit()
+            except:
+                databaseError() 
+        
+        if  ID_decyzja_status !='':
+            try:
+                c.execute('update sprawy set  ID_decyzja_status = \'' +  ID_decyzja_status + '\' where ID_sprawa = ' + ID_sprawa)
+                conn.commit()
+            except:
+                databaseError() 
+                
+        if  komentarz !='':
+            try:
+                c.execute('update sprawy set  komentarz = \'' +  komentarz + '\' where ID_sprawa = ' + ID_sprawa)
+                conn.commit()
+            except:
+                databaseError() 
+            
+            print('dane sprawy pomyślnie zaktualizowano')
+        
+        else:
+            print('nie wybrano sprawy do edycji')
     
-    # dodać funkcję addDecision
     
     def decisionTreeEmployee(y, x):  # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
@@ -150,7 +207,7 @@ class Employee(PublicUser):
         elif x == '5':             
             Employee().dispTargetEmployeeProceduresFinished()
         elif x == '6':
-            print('funkcja edycji sprawy')
+            Employee().editProcedure()
         else:
             Employee().decisionTreePublicUser(x)
 
@@ -169,10 +226,11 @@ class Manager(Employee):
             databaseError()
     
     def addNewProcedure(self):
+        #----------- tabela sprawy -------------------------
         #ID_sprawa - autoinkrementacja
         #sprawa_numer - trigger
         #sprawa_rok - trigger
-        data_wniosku = str(input('data wniosku w formacie YYYY-MM-DD'))
+        data_wniosku = str(input('data wniosku w formacie YYYY-MM-DD: '))
         inwestor_imie = str(input('imię inwestora :'))
         inwestor_nazwisko = str(input('nazwisko inwestora :'))
         inwestor_nazwa = str(input('nazwa inwestora :'))
@@ -201,6 +259,7 @@ class Manager(Employee):
     
     def addEmployee(self):
         self.dispEmployeeList()
+        #----------------- tabela pracownicy --------------------------
         #ID_pracownik - autoinkrementacja
         pracownik_imie = str(input('imię pracownika :'))
         pracownik_nazwisko = str(input('nazwisko pracownika :'))
