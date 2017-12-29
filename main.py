@@ -335,24 +335,82 @@ class Admin(Manager):
         
     def dispLegendAdmin(self):
         self.dispLegendManager()
-        print('[z] Dodaj użytkownika do systemu\n[x] Edytuj LOGIN pracownika\n[c] Edytuj HASŁO pracownika\n')
+        print('[z] Dodaj użytkownika do systemu\n[x] Edytuj parametry użytkownika \n[c] Usuń użytkownika\n')
+        
+    def dispUserList(self):
+        try:
+            c.execute('select * from allUser')
+            print("|%3s|%13s|%13s|" %('ID', 'login', 'uprawnienia'))
+            print('-'*48)
+            for row in c:
+                print("|%3s|%13s|%13s|" %(row[0],row[1],row[2]))
+        except:
+            databaseError()
     
-    # dodać funkcję addUser
+    def addUser(self):
+        self.dispUserList()
+        #----------------- tabela password--------------------------
+        #ID_password - autoinkrementacja
+        login = str(input('login użytkownika :'))
+        password = str(input('hasło :'))
+        ID_permissions = str(input('poziom uprawnień [1] pracownik, [2] naczelnik, [3] administrator :'))   
+        
+        try:
+            c.execute("insert into password values(null, %s, %s, %s)",(login, password, ID_permissions))
+            conn.commit()
+            print('użytkownik: ' + login + ' hasło: ' + password + ' poziom uprawnień: ' + ID_permissions '  pomyślnie wprowadzony do systemu')
+        except:
+            databaseError()
     
-    # dodać funkcję editLogin
+    def editUser(self):
+        self.dispUserList()
+        ID_password = str(input('podaj ID użytkownika do edycji : '))
+        
+        if ID_password != '':
+            login = str(input('podaj nowy login dla użytkownika lub wciśnij [enter] :'))
+            password = str(input('podaj nowe hasło dla użytkownika lub wciśnij [enter]  :'))
+            ID_permissions = str(input(' podaj nowy poziom uprawnień: [1] pracownik, [2] naczelnik, [3] administrator lub wciśnij [enter]:'))
     
-    # dodać funkcję editPassword
+        if login != '':
+            try:
+                c.execute('update password set login = \'' + login + '\' where ID_password = ' + ID_password)
+                conn.commit()
+            except:
+                databaseError()
     
-    # dodać funkcję editPermissions
+        if password != '':
+            try:
+                c.execute('update password set password= \'' + password+ '\' where ID_password = ' + ID_password)
+                conn.commit()
+            except:
+                databaseError()
+    
+        if ID_permissions != '':
+            try:
+                c.execute('update ID_permissions set login = \'' + ID_permissions + '\' where ID_password = ' + ID_password)
+                conn.commit()
+            except:
+                databaseError()
+    
+    def deleteUser(self):
+        self.dispUserList()
+        ID_password = str(input('podaj ID użytkownika do usunięcia : ')) 
+        try:
+            c.execute('delete from password where ID_password =' + ID_password)
+            conn.commit()
+            print('Użytkownik został usunięty z systemu')
+        except:
+            databaseError()
+    
     
     def decisionTreeAdmin(y, x):  # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
         if x == 'z':
-            print('funkcja dodania użytkownika do systemu')
+            Admin().addUser()
         elif x == 'x':             
-            print('funkcja edycji LOGINu pracownika')
+            Admin().editUser()
         elif x == 'c':
-            print('funkcja edycji HASŁA pracownika')           
+            Admin().deleteUser()         
         else:
             Admin().decisionTreeManager(x)
 
