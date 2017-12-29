@@ -335,13 +335,13 @@ class Admin(Manager):
         
     def dispLegendAdmin(self):
         self.dispLegendManager()
-        print('[z] Dodaj użytkownika do systemu\n[x] Edytuj parametry użytkownika \n[c] Usuń użytkownika\n')
+        print('[a] wyświetl użytkowników systemu\n[z] Dodaj użytkownika do systemu\n[x] Edytuj parametry użytkownika \n[c] Usuń użytkownika\n')
         
     def dispUserList(self):
         try:
-            c.execute('select * from allUser')
+            c.execute('select * from allUsers')
             print("|%3s|%13s|%13s|" %('ID', 'login', 'uprawnienia'))
-            print('-'*48)
+            print('-'*33)
             for row in c:
                 print("|%3s|%13s|%13s|" %(row[0],row[1],row[2]))
         except:
@@ -358,9 +358,9 @@ class Admin(Manager):
         try:
             c.execute("insert into password values(null, %s, %s, %s)",(login, password, ID_permissions))
             conn.commit()
-            print('użytkownik: ' + login + ' hasło: ' + password + ' poziom uprawnień: ' + ID_permissions '  pomyślnie wprowadzony do systemu')
+            print('użytkownik: ' + login + ' hasło: ' + password + ' poziom uprawnień: ' + ID_permissions + '  pomyślnie wprowadzony do systemu')
         except:
-            databaseError()
+            print('błąd - użytkownika nie dodano do bazy')
     
     def editUser(self):
         self.dispUserList()
@@ -405,7 +405,9 @@ class Admin(Manager):
     
     def decisionTreeAdmin(y, x):  # zawsze gdy wywołujemy funkcję która jest wewnątrz klasy pierwszym argumentem jest self
         
-        if x == 'z':
+        if x == 'a':
+            Admin().dispUserList()
+        elif x == 'z':
             Admin().addUser()
         elif x == 'x':             
             Admin().editUser()
